@@ -66,14 +66,27 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh '''
-                    set -eu
+                withCredentials([
+                    string(
+                        credentialsId: 'payload-secret',
+                        variable: 'PAYLOAD_SECRET_VALUE'
+                    ),
+                    string(
+                        credentialsId: 'database-url',
+                        variable: 'DATABASE_URL_VALUE'
+                    )
+                 ]) {
+                    sh '''
+                        set -eu
 
-                    docker build \
-                      --pull \
-                      --tag "${IMAGE_URI}" \
-                      .
-                '''
+                        DOCKER_BUILDKIT=1 docker build \
+                          --pull \
+                          --secret id=PAYLOAD_SECRET,env=PAYLOAD_SECRET_VALUE \
+                          --secret id=DATABASE_URL,env=DATABASE_URL_VALUE \
+                          --tag "${IMAGE_URI}" \
+                          .
+                    '''
+                 }
             }
         }
 
