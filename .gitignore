@@ -1,22 +1,64 @@
-build
-dist / media
-node_modules
-.DS_Store
-.env
-.next
-next-env.d.ts
-.vercel
+cat > .gitignore <<'EOF'
+# Build
+build/
+dist/
+media/
 
-# Payload default media upload directory
+# Dependencies
+node_modules/
+
+# OS
+.DS_Store
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Next.js
+.next/
+next-env.d.ts
+
+# Vercel
+.vercel/
+
+# Payload uploads
 public/media/
 
+# Generated files
 public/robots.txt
 public/sitemap*.xml
 
-
 # Playwright
-node_modules/
 /test-results/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+terraform.tfvars
+*.auto.tfvars
+
+# Kubernetes
+*-secret.yaml
+backups/
+
+# Logs
+*.log
+
+# TypeScript
+*.tsbuildinfo
+
+# Backup and temporary files
+*.backup
+*.before-docker
+*.error
+
+# Local IAM working file
+iam_policy.json
+EOF
